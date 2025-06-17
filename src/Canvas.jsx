@@ -23,8 +23,17 @@ const Canvas = ({ widthCm, heightCm, color }) => {
   }, [widthCm, heightCm, color]);
 
   return (
-    <div style={{ border: "2px solid #87ceeb", background: "#fff", borderRadius: "8px", padding: "8px" }}>
-      <canvas ref={canvasRef} />
+    <div style={{
+      border: "2px solid #00aaff",
+      borderRadius: "12px",
+      padding: "12px",
+      background: "#ffffff",
+      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+      maxWidth: "100%",
+      overflow: "auto",
+      marginBottom: "20px"
+    }}>
+      <canvas ref={canvasRef} style={{ display: "block", margin: "0 auto" }} />
     </div>
   );
 };
