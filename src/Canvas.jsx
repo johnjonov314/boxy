@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef, useEffect } from "react";
 
 const Canvas = ({ widthCm, heightCm, color }) => {
   const canvasRef = useRef(null);
@@ -6,32 +6,26 @@ const Canvas = ({ widthCm, heightCm, color }) => {
   useEffect(() => {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
-    const pxPerCm = 10; // масштаб для удобства визуализации
-    const widthPx = widthCm * pxPerCm;
-    const heightPx = heightCm * pxPerCm;
 
-    canvas.width = widthPx;
-    canvas.height = heightPx;
+    const dpi = window.devicePixelRatio || 1;
+    const widthPx = widthCm * 10;
+    const heightPx = heightCm * 10;
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    canvas.width = widthPx * dpi;
+    canvas.height = heightPx * dpi;
+    canvas.style.width = `${widthPx}px`;
+    canvas.style.height = `${heightPx}px`;
+    ctx.scale(dpi, dpi);
+
+    ctx.clearRect(0, 0, widthPx, heightPx);
     ctx.fillStyle = color;
     ctx.fillRect(0, 0, widthPx, heightPx);
-    ctx.strokeStyle = "#333";
-    ctx.lineWidth = 2;
-    ctx.strokeRect(0, 0, widthPx, heightPx);
   }, [widthCm, heightCm, color]);
 
   return (
-    <canvas
-      ref={canvasRef}
-      style={{
-        maxWidth: "100%",
-        height: "auto",
-        background: "#fff",
-        border: "2px solid #87ceeb",
-        borderRadius: "8px"
-      }}
-    />
+    <div style={{ border: "2px solid #87ceeb", background: "#fff", borderRadius: "8px", padding: "8px" }}>
+      <canvas ref={canvasRef} />
+    </div>
   );
 };
 
