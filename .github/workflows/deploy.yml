@@ -28,6 +28,7 @@ jobs:
         with:
           aws_key_id: ${{ secrets.YANDEX_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.YANDEX_SECRET_ACCESS_KEY }}
-          bucket: ${{ secrets.YANDEX_BUCKET_NAME }}
+          aws_bucket: ${{ secrets.YANDEX_BUCKET_NAME }}
           endpoint: https://storage.yandexcloud.net
           source_dir: dist
+          destination_dir: /
