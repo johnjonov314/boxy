@@ -9,22 +9,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      - name: Upload to Yandex Object Storage
-        uses: shallwefootball/s3-upload-action@master
+      - run: npm ci  # или npm install
+      - run: npm run build
+      - uses: shallwefootball/s3-upload-action@master
         with:
           aws_key_id: ${{ secrets.YANDEX_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.YANDEX_SECRET_ACCESS_KEY }}
