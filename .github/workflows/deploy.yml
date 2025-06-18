@@ -10,29 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Install dependencies
         run: npm install
 
-      - name: Fix vite permissions
-        run: chmod +x node_modules/.bin/vite
-
       - name: Build project
         run: npm run build
 
+      - name: Install rclone
+        run: curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure rclone
+        run: |
+          echo "[yandex]
+          type = s3
+          provider = Yandex
+          access_key_id = ${YANDEX_ACCESS_KEY}
+          secret_access_key = ${YANDEX_SECRET_KEY}
+          endpoint = storage.yandexcloud.net
+          region = ru-central1" > rclone.conf
+        env:
+          YANDEX_ACCESS_KEY: ${{ secrets.YANDEX_ACCESS_KEY }}
+          YANDEX_SECRET_KEY: ${{ secrets.YANDEX_SECRET_KEY }}
+
       - name: Upload to Yandex Object Storage
-        uses: shallwefootball/s3-upload-action@master
-        with:
-          aws_key_id: ${{ secrets.YANDEX_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.YANDEX_SECRET_ACCESS_KEY }}
-          aws_bucket: ${{ secrets.YANDEX_BUCKET_NAME }}
-          endpoint: https://storage.yandexcloud.net
-          source_dir: dist
-          destination_dir: /
+        run: rclone --config=rclone.conf sync ./dist yandex:${{ secrets.YANDEX_BUCKET_NAME }} --progress

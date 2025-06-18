@@ -1,0 +1,15 @@
+# Игнорировать зависимости и сборку
+node_modules/
+dist/
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Логи и временные файлы
+*.log
+*.tmp
+
+# IDE
+.vscode/
+.idea/
