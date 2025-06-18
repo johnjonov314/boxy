@@ -29,12 +29,12 @@ jobs:
 
       - name: ⚙️ Configure rclone
         run: |
-          echo "[yandex]" > rclone.conf
-          echo "type = s3" >> rclone.conf
-          echo "provider = Yandex" >> rclone.conf
-          echo "access_key_id = ${{ secrets.YANDEX_ACCESS_KEY }}" >> rclone.conf
-          echo "secret_access_key = ${{ secrets.YANDEX_SECRET_KEY }}" >> rclone.conf
-          echo "endpoint = https://storage.yandexcloud.net" >> rclone.conf
+echo "[yandex]" > rclone.conf
+echo "type = s3" >> rclone.conf
+echo "provider = Other" >> rclone.conf
+echo "access_key_id = ${{ secrets.YANDEX_ACCESS_KEY }}" >> rclone.conf
+echo "secret_access_key = ${{ secrets.YANDEX_SECRET_KEY }}" >> rclone.conf
+echo "endpoint = https://storage.yandexcloud.net" >> rclone.conf
 
       - name: 🚀 Upload to Yandex Object Storage
         run: |
