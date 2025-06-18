@@ -27,18 +27,16 @@ jobs:
       - name: 🧰 Install rclone
         run: curl https://rclone.org/install.sh | sudo bash
 
-      -  name: Configure rclone
-  run: |
-    echo "[yandex]" > rclone.conf
-    echo "type = s3" >> rclone.conf
-    echo "provider = Yandex" >> rclone.conf
-    echo "access_key_id = ${{ secrets.YANDEX_ACCESS_KEY }}" >> rclone.conf
-    echo "secret_access_key = ${{ secrets.YANDEX_SECRET_KEY }}" >> rclone.conf
-    echo "endpoint = https://storage.yandexcloud.net" >> rclone.conf
+      - name: ⚙️ Configure rclone
+        run: |
+          echo "[yandex]" > rclone.conf
+          echo "type = s3" >> rclone.conf
+          echo "provider = Yandex" >> rclone.conf
+          echo "access_key_id = ${{ secrets.YANDEX_ACCESS_KEY }}" >> rclone.conf
+          echo "secret_access_key = ${{ secrets.YANDEX_SECRET_KEY }}" >> rclone.conf
+          echo "endpoint = https://storage.yandexcloud.net" >> rclone.conf
 
       - name: 🚀 Upload to Yandex Object Storage
         run: |
           echo "📤 Начинаем загрузку в бакет: ${{ secrets.YANDEX_BUCKET_NAME }}"
-          rclone -vv --config=rclone.conf sync ./dist yandex:${{ secrets.YANDEX_BUCKET_NAME }}
-
-          
+          rclone --config=rclone.conf sync ./dist yandex:${{ secrets.YANDEX_BUCKET_NAME }} --progress
