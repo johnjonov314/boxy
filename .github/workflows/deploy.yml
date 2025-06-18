@@ -24,16 +24,12 @@ jobs:
 
       - name: Configure rclone
         run: |
-          echo "[yandex]
-          type = s3
-          provider = Yandex
-          access_key_id = ${YANDEX_ACCESS_KEY}
-          secret_access_key = ${YANDEX_SECRET_KEY}
-          endpoint = storage.yandexcloud.net
-          region = ru-central1" > rclone.conf
-        env:
-          YANDEX_ACCESS_KEY: ${{ secrets.YANDEX_ACCESS_KEY }}
-          YANDEX_SECRET_KEY: ${{ secrets.YANDEX_SECRET_KEY }}
+          echo "[yandex]" > rclone.conf
+          echo "type = s3" >> rclone.conf
+          echo "provider = Other" >> rclone.conf
+          echo "access_key_id = ${{ secrets.YANDEX_ACCESS_KEY }}" >> rclone.conf
+          echo "secret_access_key = ${{ secrets.YANDEX_SECRET_KEY }}" >> rclone.conf
+          echo "endpoint = https://storage.yandexcloud.net" >> rclone.conf
 
       - name: Upload to Yandex Object Storage
         run: rclone --config=rclone.conf sync ./dist yandex:${{ secrets.YANDEX_BUCKET_NAME }} --progress
